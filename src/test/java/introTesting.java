@@ -1,7 +1,3 @@
-/**
- * Created by canerelbir on 17/11/2016.
- */
-
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +6,7 @@ import org.junit.*;
 import static org.junit.Assert.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
 
 public class introTesting {
 
@@ -30,14 +27,14 @@ public class introTesting {
     public void test1() throws Exception {
         driver.get(baseUrl + "/");
         driver.findElement(By.className("sgm-notification-close")).click();
-/*
+
+        driver.manage().window().maximize();
+        driver.get(baseUrl + "/");
         String homePage = driver.getWindowHandle();
         System.out.println(homePage);
 
         driver.findElement(By.linkText("Giriş Yap")).click();
         Thread.sleep(1000);
-
-
 
         for (int second = 0;; second++) {
             if (second >= 60) fail("timeout");
@@ -52,14 +49,10 @@ public class introTesting {
         System.out.println(windows.size());
         Iterator iterator = windows.iterator();
 
-
         String popPage = iterator.next().toString();
         popPage = iterator.next().toString();
 
         System.out.println(popPage);
-
-
-
 
         driver.switchTo().window(popPage);
 
@@ -71,40 +64,29 @@ public class introTesting {
 
         Thread.sleep(2000);
         driver.findElement(By.id("email")).clear();
-        driver.findElement(By.id("email")).sendKeys("seleniumtestingeren@gmail.com");
+        driver.findElement(By.id("email")).sendKeys("cnrtest@hotmail.com");
         driver.findElement(By.id("pass")).clear();
-        driver.findElement(By.id("pass")).sendKeys("seleniumide");
-        driver.findElement(By.id("u_0_2")).click();
+        driver.findElement(By.id("pass")).sendKeys("hiMyFriend123");
+        driver.findElement(By.xpath("//*[@id=\"u_0_2\"]"));
 
         Thread.sleep(3000);
 
         driver.switchTo().window(homePage);
 
-
-*/
-
-
-
-
-
         driver.findElement(By.xpath("//*[@id=\"contentMain\"]/div/nav/ul/li[8]/a")).click();
         driver.findElement(By.xpath("//*[@id=\"contentCategory\"]/div/div[2]/div[1]/ul/li[1]/a")).click();
         driver.findElement(By.linkText("Yazarlar")).click();
 
-        //*[@id="authorsList"]/div[1]/ul/li[1]/a
-
-
-
         char alfabe[] = "ABCÇDEFGHIİJKLMNOÖPRSŞTUÜVWXYZ".toCharArray();
 
         int divCount = 0;
-        for(int i = 2; i < 33; i++) {
-            String item = String.valueOf(driver.findElement(By.xpath("//*[@id=\"brandsPaging\"]/div[1]/span[" + i +"]")));
+        for(int i = 2; i <= 32; i++) {
+            driver.findElement(By.xpath("//*[@id=\"brandsPaging\"]/div[1]/span[" + i +"]"));
             driver.findElement(By.xpath("//*[@id=\"brandsPaging\"]/div[1]/span[" + i +"]")).click();
             List<WebElement> totalDiv = driver.findElements(By.xpath("//*[@id=\"authorsList\"]/div"));
             for (WebElement numberOfDiv: totalDiv) {
                 divCount++;
-                for (int j = 1; j < a; j++) {
+                for (int j = 1; j < divCount; j++) {
                     findElements("//*[@id=\"authorsList\"]/div[" + j + "]/ul/li", alfabe[i-2]);
                 }
             }
@@ -115,18 +97,21 @@ public class introTesting {
 
     private void findElements(String xpath1, char alphabet) {
 
-        //assertEquals(80, (allElementsColumn1.size()));
-        List<WebElement> allElementsColumn1 = driver.findElements(By.xpath(xpath1));
+        List<WebElement> allElementsColumn = driver.findElements(By.xpath(xpath1));
         boolean flag = false;
-        int a = 0;
-        for (WebElement element : allElementsColumn1) {
+        int numberOfElementsLi = 0;
+        int elementLength = 0;
+        for (WebElement element : allElementsColumn) {
             flag = element.getText().charAt(0) == alphabet;
-            a++;
+            elementLength = element.getText().length();
+            System.out.println(elementLength);
+
+            numberOfElementsLi++;
         }
 
         try {
             if(flag == true)
-                System.out.println("YOU ARE TRUE MY FRIEND. - " + a);
+                System.out.println("YOU ARE TRUE MY FRIEND. - " + numberOfElementsLi);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -137,7 +122,7 @@ public class introTesting {
 
     @After
     public void tearDown() throws Exception {
-//        driver.quit();
+        driver.quit();
         String verificationErrorString = verificationErrors.toString();
         if (!"".equals(verificationErrorString)) {
             fail(verificationErrorString);
