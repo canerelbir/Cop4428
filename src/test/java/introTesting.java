@@ -108,7 +108,7 @@ public class introTesting {
                     findElements("//*[@id=\"authorsList\"]/div[" + j + "]/ul/li", alfabe[i-2]);
                 }
             }
-            a = 0;
+            divCount = 0;
         }
 
     }
